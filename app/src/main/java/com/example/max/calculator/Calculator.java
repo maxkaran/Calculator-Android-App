@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class Calculator extends AppCompatActivity {
@@ -53,5 +54,9 @@ public class Calculator extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void buttonOnClick(View view){
+        output.setText(output.getText()+ ((Button) view).getText().toString());
     }
 }
