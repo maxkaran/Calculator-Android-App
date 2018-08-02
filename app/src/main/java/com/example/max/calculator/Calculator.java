@@ -8,8 +8,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class Calculator extends AppCompatActivity {
+    private EditText output = null; //this is a reference to the output for numbers
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,9 @@ public class Calculator extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        output = findViewById(R.id.editText);
+        output.setText("Hi There!");
     }
 
     @Override
