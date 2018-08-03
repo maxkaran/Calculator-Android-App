@@ -11,8 +11,20 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+
 public class Calculator extends AppCompatActivity {
     private EditText output = null; //this is a reference to the output for numbers
+
+    //This will tell us if the next key pressed is legal
+    private enum Expected {digit, symbol, anything};
+    Expected nextExpectedEntry = Expected.digit;
+
+    private StringBuilder buffer = new StringBuilder(""); //buffer will hold the digits for the next number until it is time to parse
+
+    //as people enter values into the
+    private ArrayList<Double> numbers = new ArrayList<>(15); //Start at 15 so ArrayList does not have to resize unnecessarily
+    private ArrayList<Character> symbols = new ArrayList<>(15);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +43,7 @@ public class Calculator extends AppCompatActivity {
         });
 
         output = findViewById(R.id.editText);
-        output.setText("Hi There!");
+
     }
 
     @Override
@@ -56,7 +68,17 @@ public class Calculator extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void buttonOnClick(View view){
-        output.setText(output.getText()+ ((Button) view).getText().toString());
+    public void buttonOnClick(View view) {
+        if ((nextExpectedEntry == Expected.anything || nextExpectedEntry == Expected.digit) && view.getTag() == "number") {
+            buffer.append(((Button) view).getText()); //next expected button press is a number, so add it to buffer
+            nextExpectedEntry = Expected.anything; //either a number or symbol can come after a number
+        } else if (nextExpectedEntry == Expected.anything && view.getTag() == "symbol") {
+            numbers.add(Double.parseDouble(buffer.toString()));//this number is complete, add it to the arraylist of numbers
+            buffer.setLength(0); //reset the buffer
+            symbols.add(((Button)view).getText().charAt(0));
+        }
+    }
+    public void Equals(View view){
+
     }
 }
